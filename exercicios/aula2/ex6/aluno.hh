@@ -9,10 +9,10 @@ public:
   float nota_p1;
   float nota_p2;
   Aluno(std::string nome);
+  Aluno(std::string Nome,uint64_t matricula);
   ~Aluno() = default;
   void postar_nota_p1();
   void postar_nota_p2();
-  void alterar_notas();
 
 private:
   uint64_t matricula;
