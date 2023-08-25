@@ -3,6 +3,7 @@
 #include <random>
 #include <string>
 
+
 Aluno::Aluno(std::string nome) : nome(nome) {
   std::random_device rd;
   std::uniform_int_distribution<int> dist(19000000, 23500000);
@@ -22,3 +23,15 @@ void Aluno::postar_nota_p2() {
   std::cout << "Favor inserir a nota da Prova 2: ";
   std::cin >> nota_p2;
 }
+
+uint64_t Aluno::ler_matrícula(){
+    return this->matricula;
+}
+void Aluno::zerar_matrícula(){
+     this->matricula=0;
+}
+void Aluno::print(){
+    std::cout << this->nome<< std::endl;
+    std::cout << this->matricula<< std::endl;
+}
+Aluno::Aluno(){}
