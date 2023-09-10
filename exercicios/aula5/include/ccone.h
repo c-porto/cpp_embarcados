@@ -6,5 +6,5 @@ class CCone : public CShape3d
 
   public:
     CCone(float, float);
-    ~CCone()=default;
+    ~CCone() = default;
 };

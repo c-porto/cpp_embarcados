@@ -22,7 +22,10 @@
 #include <ccone.h>
 #include <ccylinder.h>
 #include <cshape3d.h>
+#include <cstring>
 #include <iostream>
+#include <memory>
+#include <ostream>
 
 int main()
 {
@@ -43,7 +46,16 @@ int main()
     // Um ponteiro para CShape3d assume a forma de um CCylinder
     //
     shape = new CCylinder(1.2f, 4.5f);
+    auto shape2 = std::make_unique<CCylinder>(1.2f, 4.5f);
     std::cout << "Volume do cilindro: " << shape->volume() << std::endl;
+    std::cout << "Volume do cilindro: " << shape2->volume() << std::endl;
+    std::cout << *shape2 << std::endl;
+    auto pdata = shape2->createVolumeDataset();
+    for (auto &data : *pdata.get())
+    {
+        std::cout << data << std::endl;
+    }
+    shape2->vPrintDimensions(std::cout);
     delete shape;
 
     return 0;

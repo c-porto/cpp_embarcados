@@ -6,5 +6,5 @@ class CBox : public CShape3d
 
   public:
     CBox(float, float, float);
-    ~CBox()=default;
+    ~CBox() = default;
 };

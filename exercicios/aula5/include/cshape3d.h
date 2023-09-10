@@ -13,4 +13,3 @@ class CShape3d
   public:
     virtual float volume() = 0;
 };
-
