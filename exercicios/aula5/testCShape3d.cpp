@@ -26,7 +26,7 @@
 
 int main()
 {
-    CShape3d *shape;
+    CShape3d<float> *shape;
 
     // Um ponteiro para CShape3d assume a forma de um CBox
     //

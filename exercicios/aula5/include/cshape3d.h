@@ -1,16 +1,17 @@
 #pragma once
 
+template<typename T>
 class CShape3d
 {
   public:
     virtual ~CShape3d() = default;
 
   protected:
-    float a;
-    float b;
-    float c;
+    T a;
+    T b;
+    T c;
 
   public:
-    virtual float volume() = 0;
+    virtual T volume() = 0;
 };
 
