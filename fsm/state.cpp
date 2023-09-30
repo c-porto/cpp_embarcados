@@ -1,6 +1,5 @@
 #include "state.h"
 #include "vending_machine.h"
-#include <cstdint>
 #include <string>
 
 inline std::string S000::state_name()
