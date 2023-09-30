@@ -4,16 +4,16 @@
 #include <ctime>
 #include <iostream>
 
-//Pin list
-#define CS 24 //pin 1
-#define SDIN 25 //pin 2
-#define SCLK 27 //pin 4 
-#define DC 28 //pin 7
-#define RES 29 //pin 8
-#define VBATC 30 //pin 9
-#define VDDC 31 //pin 10
+// Pin list
+#define CS 24    // pin 1
+#define SDIN 25  // pin 2
+#define SCLK 27  // pin 4
+#define DC 28    // pin 7
+#define RES 29   // pin 8
+#define VBATC 30 // pin 9
+#define VDDC 31  // pin 10
 
-/* Generate a delay of time us */ 
+/* Generate a delay of time us */
 void delay(clock_t time);
 /* Set a pin */
 void setPin(int pin, int value);
@@ -36,6 +36,6 @@ void clearLine(int line);
 /* Print one character */
 void printChar(char aux);
 /* Print a string */
-void printString(char* string);
+void printString(char *string);
 
 #endif

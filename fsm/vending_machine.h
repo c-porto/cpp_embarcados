@@ -1,41 +1,24 @@
 #pragma once
+#include "Oled_class.h"
+#include "command.h"
+#include "state.h"
 #include <cstdint>
 #include <iostream>
 #include <ostream>
 
-enum State {
-  S000 = 0,
-  S025 = 25,
-  S050 = 50,
-  S075 = 75,
-  S100 = 100,
-  S125 = 125,
-  S150 = 150,
-};
+class State;
 
-enum Command {
-  NADA,
-  M025,
-  M050,
-  M075,
-  M100,
-  DEV,
-  MEET,
-  ETIRPS,
-};
-
-class vending_machine final {
-  State state;
-  std::string drink;
-  uint8_t cmd;
-  float change;
-
-public:
-  vending_machine();
-  ~vending_machine() = default;
-  void state_update(std::ostream &os);
-  std::string state_to_string();
-  friend std::ostream &operator<<(std::ostream &os, vending_machine &machine);
+class Machine final
+{
+  public:
+    std::string drink_;
+    State *current_state_;
+    Command *cmd_;
+    Oled *display;
+    Machine();
+    ~Machine() = default;
+    void state_update(std::ostream &os);
+    friend std::ostream &operator<<(std::ostream &os, Machine &machine);
 };
 
 // new_state function, constructor and destructor,
