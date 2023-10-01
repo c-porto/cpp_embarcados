@@ -7,7 +7,8 @@ static volatile unsigned int *data = (volatile unsigned int *)0x80000a00;
 static volatile unsigned int *output = (volatile unsigned int *)0x80000a04;
 static volatile unsigned int *direction = (volatile unsigned int *)0x80000a08;
 
-Command::Command() {
+Command::Command()
+{
     this->cmd = NADA;
 }
 

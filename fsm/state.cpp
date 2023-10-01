@@ -44,7 +44,7 @@ void S000::next_state(Machine *mech)
         break;
     }
 }
-State &S000::state_instance()
+IState &S000::state_instance()
 {
     static S000 state_instance;
     return state_instance;
@@ -91,7 +91,7 @@ void S025::next_state(Machine *mech)
         break;
     }
 }
-State &S025::state_instance()
+IState &S025::state_instance()
 {
     static S025 state_instance;
     return state_instance;
@@ -138,7 +138,7 @@ void S050::next_state(Machine *mech)
         break;
     }
 }
-State &S050::state_instance()
+IState &S050::state_instance()
 {
     static S050 state_instance;
     return state_instance;
@@ -186,7 +186,7 @@ void S075::next_state(Machine *mech)
         break;
     }
 }
-State &S075::state_instance()
+IState &S075::state_instance()
 {
     static S075 state_instance;
     return state_instance;
@@ -234,7 +234,7 @@ void S100::next_state(Machine *mech)
         break;
     }
 }
-State &S100::state_instance()
+IState &S100::state_instance()
 {
     static S100 state_instance;
     return state_instance;
@@ -283,7 +283,7 @@ void S125::next_state(Machine *mech)
         break;
     }
 }
-State &S125::state_instance()
+IState &S125::state_instance()
 {
     static S125 state_instance;
     return state_instance;
@@ -333,7 +333,7 @@ void S150::next_state(Machine *mech)
         break;
     }
 }
-State &S150::state_instance()
+IState &S150::state_instance()
 {
     static S150 state_instance;
     return state_instance;

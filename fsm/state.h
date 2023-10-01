@@ -3,26 +3,26 @@
 
 class Machine;
 
-class State
+class IState
 {
   public:
     virtual void init(Machine *) = 0;
     virtual void exit(Machine *) = 0;
     virtual void next_state(Machine *) = 0;
     virtual std::string state_name() = 0;
-    virtual ~State()
+    virtual ~IState()
     {
     }
 };
 
-class S000 : public State
+class S000 : public IState
 {
   public:
     void init(Machine *);
     void exit(Machine *) ;
     void next_state(Machine *) ;
     inline std::string state_name() ;
-    static State &state_instance();
+    static IState &state_instance();
 
   private:
     S000()
@@ -38,14 +38,14 @@ class S000 : public State
     std::string state_name_;
 };
 
-class S025 : public State
+class S025 : public IState
 {
   public:
     void init(Machine *) ;
     void exit(Machine *) ;
     void next_state(Machine *) ;
     inline std::string state_name() ;
-    static State &state_instance();
+    static IState &state_instance();
 
   private:
     S025()
@@ -61,14 +61,14 @@ class S025 : public State
     std::string state_name_;
 };
 
-class S050 : public State
+class S050 : public IState
 {
   public:
     void init(Machine *) ;
     void exit(Machine *) ;
     void next_state(Machine *) ;
     inline std::string state_name() ;
-    static State &state_instance();
+    static IState &state_instance();
 
   private:
     S050()
@@ -84,14 +84,14 @@ class S050 : public State
     std::string state_name_;
 };
 
-class S075 : public State
+class S075 : public IState
 {
   public:
     void init(Machine *) ;
     void exit(Machine *) ;
     void next_state(Machine *) ;
     inline std::string state_name() ;
-    static State &state_instance();
+    static IState &state_instance();
 
   private:
     S075()
@@ -107,14 +107,14 @@ class S075 : public State
     std::string state_name_;
 };
 
-class S100 : public State
+class S100 : public IState
 {
   public:
     void init(Machine *) ;
     void exit(Machine *) ;
     void next_state(Machine *) ;
     inline std::string state_name() ;
-    static State &state_instance();
+    static IState &state_instance();
 
   private:
     S100()
@@ -129,14 +129,14 @@ class S100 : public State
     float value_;
     std::string state_name_;
 };
-class S125 : public State
+class S125 : public IState
 {
   public:
     void init(Machine *) ;
     void exit(Machine *) ;
     void next_state(Machine *) ;
     inline std::string state_name() ;
-    static State &state_instance();
+    static IState &state_instance();
 
   private:
     S125()
@@ -151,14 +151,14 @@ class S125 : public State
     float change_;
     std::string state_name_;
 };
-class S150 : public State
+class S150 : public IState
 {
   public:
     void init(Machine *) ;
     void exit(Machine *) ;
     void next_state(Machine *) ;
     inline std::string state_name() ;
-    static State &state_instance();
+    static IState &state_instance();
 
   private:
     S150()
