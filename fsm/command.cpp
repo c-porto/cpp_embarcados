@@ -30,6 +30,8 @@ std::string Command::cmd_to_string()
         return "ETIRPS";
     case MEET:
         return "MEET";
+    case CONFIRM:
+        return "Confirmado";
     default:
         return "Não conseguiu ler o comando";
     }
@@ -39,10 +41,10 @@ Commands Command::wait_for_cmd()
 {
     uint8_t buttons;
     uint8_t sw;
-    while (true)
+    while (true) 
     {
-        buttons = (unsigned char)((*data >> 15) & 0x000000FF);
-        sw = (unsigned char)((*data >> 7) & 0x0000000F);
+        buttons = (unsigned char)((*data >> 16) & 0x000000FF);
+        sw = (unsigned char)((*data >> 8) & 0x0000000F);
         if (buttons & 1U)
         {
             return M025;
@@ -65,7 +67,17 @@ Commands Command::wait_for_cmd()
         }
         if (sw & 1U)
         {
-            return DEV;
+            if (!(this->cmd == DEV)) 
+            {
+                return DEV;
+            }
+        }
+        if ((sw >> 1U) & 1U)
+        {
+            if (!(this->cmd == CONFIRM)) 
+            {
+                return CONFIRM;
+            }
         }
     }
 }

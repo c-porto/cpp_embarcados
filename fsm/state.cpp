@@ -1,5 +1,6 @@
 #include "state.h"
 #include "vending_machine.h"
+#include "Oled.h"
 #include <string>
 
 inline std::string S000::state_name()
@@ -9,8 +10,17 @@ inline std::string S000::state_name()
 void S000::init(Machine *mech)
 {
     mech->display->clear();
-    mech->display->print_display(state_name_, value_, change_);
-    change_ = 0.0f;
+    if (mech->cmd_->cmd != DEV && mech->cmd_->cmd != CONFIRM) {
+        mech->display->print_display(state_name_, value_, change_);
+    } else if(mech->cmd_->cmd == CONFIRM) {
+        mech->drink_ = "Ainda não escolhido";
+        setLine(0);
+        printString("Pegue seu Refri :)");
+        setLine(1);
+        printString("Obrigado S2");
+        setLine(2);
+        printString("Por favor desligue o switch 1");
+    }
 }
 void S000::exit(Machine *mech)
 {
@@ -35,6 +45,8 @@ void S000::next_state(Machine *mech)
         break;
     case DEV:
         change_ = value_;
+        mech->display->print_display( "Saldo: R$ 0.00", 0.0f, change_);
+        mech->current_state_ = &S000::state_instance();
         break;
     case ETIRPS:
         mech->drink_ = "ETIRPS";
@@ -57,6 +69,10 @@ void S025::init(Machine *mech)
 {
     mech->display->clear();
     mech->display->print_display(state_name_, value_, change_);
+    if (mech->cmd_->cmd == CONFIRM) {
+        setLine(3);
+        printString("Saldo insuficiente");
+    }
     change_ = 0.0f;
 }
 void S025::exit(Machine *mech)
@@ -82,6 +98,8 @@ void S025::next_state(Machine *mech)
         break;
     case DEV:
         change_ = value_;
+        mech->display->print_display( "Saldo: R$ 0.00", 0.0f, change_);
+        mech->current_state_ = &S000::state_instance();
         break;
     case ETIRPS:
         mech->drink_ = "ETIRPS";
@@ -104,6 +122,10 @@ void S050::init(Machine *mech)
 {
     mech->display->clear();
     mech->display->print_display(state_name_, value_, change_);
+    if (mech->cmd_->cmd == CONFIRM) {
+        setLine(3);
+        printString("Saldo insuficiente");
+    }
     change_ = 0.0f;
 }
 void S050::exit(Machine *mech)
@@ -129,6 +151,8 @@ void S050::next_state(Machine *mech)
         break;
     case DEV:
         change_ = value_;
+        mech->display->print_display( "Saldo: R$ 0.00", 0.0f, change_);
+        mech->current_state_ = &S000::state_instance();
         break;
     case ETIRPS:
         mech->drink_ = "ETIRPS";
@@ -151,6 +175,10 @@ void S075::init(Machine *mech)
 {
     mech->display->clear();
     mech->display->print_display(state_name_, value_, change_);
+    if (mech->cmd_->cmd == CONFIRM) {
+        setLine(3);
+        printString("Saldo insuficiente");
+    }
     change_ = 0.0f;
 }
 void S075::exit(Machine *mech)
@@ -177,6 +205,8 @@ void S075::next_state(Machine *mech)
         break;
     case DEV:
         change_ = value_;
+        mech->display->print_display( "Saldo: R$ 0.00", 0.0f, change_);
+        mech->current_state_ = &S000::state_instance();
         break;
     case ETIRPS:
         mech->drink_ = "ETIRPS";
@@ -199,6 +229,10 @@ void S100::init(Machine *mech)
 {
     mech->display->clear();
     mech->display->print_display(state_name_, value_, change_);
+    if (mech->cmd_->cmd == CONFIRM) {
+        setLine(3);
+        printString("Saldo insuficiente");
+    }
     change_ = 0.0f;
 }
 void S100::exit(Machine *mech)
@@ -225,6 +259,8 @@ void S100::next_state(Machine *mech)
         break;
     case DEV:
         change_ = value_;
+        mech->display->print_display( "Saldo: R$ 0.00", 0.0f, change_);
+        mech->current_state_ = &S000::state_instance();
         break;
     case ETIRPS:
         mech->drink_ = "ETIRPS";
@@ -247,6 +283,10 @@ void S125::init(Machine *mech)
 {
     mech->display->clear();
     mech->display->print_display(state_name_, value_, change_);
+    if (mech->cmd_->cmd == CONFIRM) {
+        setLine(3);
+        printString("Saldo insuficiente");
+    }
     change_ = 0.0f;
 }
 void S125::exit(Machine *mech)
@@ -274,6 +314,8 @@ void S125::next_state(Machine *mech)
         break;
     case DEV:
         change_ = value_;
+        mech->display->print_display( "Saldo: R$ 0.00", 0.0f, change_);
+        mech->current_state_ = &S000::state_instance();
         break;
     case ETIRPS:
         mech->drink_ = "ETIRPS";
@@ -296,6 +338,14 @@ void S150::init(Machine *mech)
 {
     mech->display->clear();
     mech->display->print_display(state_name_, value_, change_);
+    if (mech->drink_ == "ETIRPS" || mech->drink_ == "MEET"){
+        setLine(3);
+        printString("SW1 para confirmar");
+    }
+    if (mech->cmd_->cmd == CONFIRM){
+        setLine(3);
+        printString("Escolha um refri primeiro");
+    }
     change_ = 0.0f;
 }
 void S150::exit(Machine *mech)
@@ -324,12 +374,19 @@ void S150::next_state(Machine *mech)
         break;
     case DEV:
         change_ = value_;
+        mech->display->print_display( "Saldo: R$ 0.00", 0.0f, change_);
+        mech->current_state_ = &S000::state_instance();
         break;
     case ETIRPS:
         mech->drink_ = "ETIRPS";
         break;
     case MEET:
         mech->drink_ = "MEET";
+        break;
+    case CONFIRM:
+        if (mech->drink_ == "ETIRPS" || mech->drink_ == "MEET") {
+        mech->current_state_ = &S000::state_instance();
+        }
         break;
     }
 }

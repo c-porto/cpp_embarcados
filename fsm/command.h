@@ -9,6 +9,7 @@ typedef enum
     DEV,
     MEET,
     ETIRPS,
+    CONFIRM,
 }Commands;
 
 class Command

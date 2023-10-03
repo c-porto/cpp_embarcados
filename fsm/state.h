@@ -29,7 +29,7 @@ class S000 : public IState
     {
         value_ = 0.0f;
         change_ = 0.0f;
-        state_name_ = "S000";
+        state_name_ = "Saldo: R$ 0.00";
     }
     S000(const S000 &other);
     S000 &operator=(const S000 &other);
@@ -52,7 +52,7 @@ class S025 : public IState
     {
         value_ = 0.25f;
         change_ = 0.0f;
-        state_name_ = "S025";
+        state_name_ = "Saldo: R$ 0.25";
     }
     S025(const S025 &other);
     S025 &operator=(const S025 &other);
@@ -75,7 +75,7 @@ class S050 : public IState
     {
         value_ = 0.50f;
         change_ = 0.0f;
-        state_name_ = "S050";
+        state_name_ = "Saldo: R$ 0.50";
     }
     S050(const S050 &other);
     S050 &operator=(const S050 &other);
@@ -98,7 +98,7 @@ class S075 : public IState
     {
         value_ = 0.75f;
         change_ = 0.0f;
-        state_name_ = "S075";
+        state_name_ = "Saldo: R$ 0.75";
     }
     S075(const S075 &other);
     S075 &operator=(const S075 &other);
@@ -121,7 +121,7 @@ class S100 : public IState
     {
         value_ = 1.00f;
         change_ = 0.0f;
-        state_name_ = "S100";
+        state_name_ = "Saldo: R$ 1.00";
     }
     S100(const S100 &other);
     S100 &operator=(const S100 &other);
@@ -143,7 +143,7 @@ class S125 : public IState
     {
         value_ = 1.25f;
         change_ = 0.0f;
-        state_name_ = "S125";
+        state_name_ = "Saldo: R$ 1.25";
     }
     S125(const S125 &other);
     S125 &operator=(const S125 &other);
@@ -165,7 +165,7 @@ class S150 : public IState
     {
         value_ = 1.50f;
         change_ = 0.0f;
-        state_name_ = "S150";
+        state_name_ = "Saldo: R$ 1.50";
     }
     S150(const S150 &other);
     S150 &operator=(const S150 &other);

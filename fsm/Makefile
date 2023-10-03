@@ -2,7 +2,7 @@ TARGET=machine
 
 
 CXX=~/Downloads/sparc-elf-3.4.4/bin/sparc-elf-g++
-CFLAGS=-I.
+CFLAGS=-I. -msoft-float -w
 
 .PHONY: all
 all: 
