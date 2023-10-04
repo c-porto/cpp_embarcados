@@ -9,8 +9,12 @@ int main()
     Machine soda_machine;
     soda_machine.display->init();
     soda_machine.display->clear();
-    std::string inicial_message = "Por favor escolha seu refri e insira as moedas como pagamento";
-    printString((char *)inicial_message.c_str());
+    setLine(0);
+    printString("Por favor");
+    setLine(1);
+    printString("Escolha o Refri:");
+    setLine(2);
+    printString("Preco: R$ 1.50");
 
     while (true)
     {

@@ -39,7 +39,7 @@ Commands Command::wait_for_cmd()
 {
     uint8_t buttons;
     uint8_t sw;
-    while (true) 
+    while (true)
     {
         buttons = (unsigned char)((*data >> 16) & 0x000000FF);
         sw = (unsigned char)((*data >> 8) & 0x0000000F);
@@ -65,7 +65,7 @@ Commands Command::wait_for_cmd()
         }
         if (sw & 1U)
         {
-            if (!(this->cmd == DEV)) 
+            if (!(this->cmd == DEV))
             {
                 return DEV;
             }

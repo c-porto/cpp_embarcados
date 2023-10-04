@@ -5,9 +5,10 @@
 Machine::Machine()
 {
     current_state_ = &S000::state_instance();
-    drink_ = "Ainda não escolhido";
+    drink_ = "Escolha";
     display = new Oled;
     cmd_ = new Command;
+    change_ = 0.0f;
 }
 
 void Machine::state_update(std::ostream &os)
@@ -18,6 +19,7 @@ void Machine::state_update(std::ostream &os)
     os << *this;
 }
 
+/* Apenas para DEBUG */
 std::ostream &operator<<(std::ostream &os, Machine &machine)
 {
     os << "Estado Atual: " << machine.current_state_->state_name() << std::endl;

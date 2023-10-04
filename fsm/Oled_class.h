@@ -7,5 +7,5 @@ class Oled
   public:
     void init();
     void clear();
-    void print_display(std::string, float, float);
+    void print_display(std::string, std::string, float);
 };

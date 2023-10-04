@@ -7,10 +7,11 @@
 
 class IState;
 
-class Machine 
+class Machine
 {
- public:
+  public:
     std::string drink_;
+    float change_;
     IState *current_state_;
     Command *cmd_;
     Oled *display;

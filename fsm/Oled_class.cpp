@@ -17,7 +17,7 @@ void Oled::clear(void)
     oledClear();
 }
 
-void Oled::print_display(std::string drink, float balance, float change)
+void Oled::print_display(std::string drink, std::string balance, float change)
 {
     std::stringstream drink_stream;
     std::stringstream balance_stream;
@@ -25,11 +25,11 @@ void Oled::print_display(std::string drink, float balance, float change)
 
     this->clear();
 
-    drink_stream << "Drink escolhido: " << drink;
+    drink_stream << "Drink: " << drink;
     setLine(0);
     printString((char *)drink_stream.str().c_str());
 
-    balance_stream << "Saldo(R$): " << balance;
+    balance_stream << balance;
     setLine(1);
     printString((char *)balance_stream.str().c_str());
 

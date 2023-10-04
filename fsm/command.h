@@ -1,15 +1,15 @@
 #include <string>
 
-typedef enum 
+typedef enum
 {
     NADA = 0,
-    M025, 
+    M025,
     M050,
     M100,
     DEV,
     MEET,
     ETIRPS,
-}Commands;
+} Commands;
 
 class Command
 {
