@@ -30,8 +30,6 @@ std::string Command::cmd_to_string()
         return "ETIRPS";
     case MEET:
         return "MEET";
-    case CONFIRM:
-        return "Confirmado";
     default:
         return "Não conseguiu ler o comando";
     }
@@ -70,13 +68,6 @@ Commands Command::wait_for_cmd()
             if (!(this->cmd == DEV)) 
             {
                 return DEV;
-            }
-        }
-        if ((sw >> 1U) & 1U)
-        {
-            if (!(this->cmd == CONFIRM)) 
-            {
-                return CONFIRM;
             }
         }
     }
