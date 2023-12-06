@@ -1,0 +1,3 @@
+[submodule "monitoring-system-v1/software/linux_host/third_party/abseil-cpp"]
+	path = monitoring-system-v1/software/linux_host/third_party/abseil-cpp
+	url = https://github.com/abseil/abseil-cpp.git
