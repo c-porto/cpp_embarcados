@@ -36,3 +36,9 @@
 **/.cache
 **/cache
 **/compile_commands.json
+
+# Latex stuff
+*.aux
+*.log 
+**/images
+*.pdf

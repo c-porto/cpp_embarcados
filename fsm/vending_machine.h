@@ -2,21 +2,20 @@
 #include "Oled_class.h"
 #include "command.h"
 #include "state.h"
-#include <cstdint>
 #include <iostream>
 #include <ostream>
 
-class State;
+class IState;
 
-class Machine final
+class Machine
 {
   public:
     std::string drink_;
-    State *current_state_;
+    float change_;
+    IState *current_state_;
     Command *cmd_;
     Oled *display;
     Machine();
-    ~Machine() = default;
     void state_update(std::ostream &os);
     friend std::ostream &operator<<(std::ostream &os, Machine &machine);
 };

@@ -1,22 +1,21 @@
 #include <string>
 
-enum Commands
+typedef enum
 {
-    NADA,
+    NADA = 0,
     M025,
     M050,
     M100,
     DEV,
     MEET,
     ETIRPS,
-};
+} Commands;
 
 class Command
 {
   public:
-    Commands cmd{Commands::NADA};
-    Command() = default;
-    ~Command() = default;
+    Commands cmd;
+    Command();
     std::string cmd_to_string();
     Commands wait_for_cmd();
 };
