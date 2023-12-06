@@ -15,9 +15,9 @@ namespace monitoring_system {
 /* Simple typedef's for convenience */
 using Settings = std::unique_ptr<cli::CliSettings>;
 using FinalSettings = std::pair<uart::UartBaudrate, std::string>;
-using RequestP = logs::Request*;
-using ProtocolP = logs::Protocol*;
-using UartRef = uart::UartInterface&;
+using RequestP = logs::Request *;
+using ProtocolP = logs::Protocol *;
+using UartRef = uart::UartInterface &;
 
 /* Linux host class */
 class LinuxHost final : public std::enable_shared_from_this<LinuxHost> {
@@ -27,7 +27,7 @@ class LinuxHost final : public std::enable_shared_from_this<LinuxHost> {
   /* Starts CLI interface */
   void start_cli_interface(std::ostream &);
 
- /* Helper functions to handle inputs and requests */
+  /* Helper functions to handle inputs and requests */
  private:
   logs::RequestTypes handle_user_option(std::ostream &) const;
   logs::EventDisplayOptions handle_user_event_option(std::ostream &) const;

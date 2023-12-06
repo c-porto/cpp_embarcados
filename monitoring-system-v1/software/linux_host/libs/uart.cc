@@ -15,9 +15,9 @@ namespace uart {
 
 using termios = struct termios;
 
-/* Uart constructor used for creating uart connection, 
+/* Uart constructor used for creating uart connection,
  * all the function does is configure the termios interface for uart.
-*/
+ */
 UartInterface::UartInterface(std::ostream &os, std::string serial,
                              UartBaudrate ubd, UartStopBit usb,
                              UartParityBit upb, UartBitsPerByte ubpb)
@@ -44,72 +44,72 @@ UartInterface::UartInterface(std::ostream &os, std::string serial,
     tty.c_cflag |= PARENB;
   }
 
-  tty.c_cflag &= ~PARENB; // Clear parity bit, disabling parity
+  tty.c_cflag &= ~PARENB;  // Clear parity bit, disabling parity
 
   tty.c_cflag &=
-      ~CSTOPB; // Clear stop field, only one stop bit used in communication
+      ~CSTOPB;  // Clear stop field, only one stop bit used in communication
 
   tty.c_cflag &=
-      ~CSIZE; // Clear all the size bits, then use one of the statements below
+      ~CSIZE;  // Clear all the size bits, then use one of the statements below
 
   switch (ubpb) {
-  case UartBitsPerByte::kFiveBitsPerByte:
-    tty.c_cflag |= CS5;
-    break;
-  case UartBitsPerByte::kSixBitsPerByte:
-    tty.c_cflag |= CS6;
-    break;
-  case UartBitsPerByte::kSevenBitsPerByte:
-    tty.c_cflag |= CS7;
-    break;
-  case UartBitsPerByte::kEightBitsPerByte:
-    tty.c_cflag |= CS8;
-    break;
-  default:
-    throw std::logic_error("Invalid option for bits per byte");
+    case UartBitsPerByte::kFiveBitsPerByte:
+      tty.c_cflag |= CS5;
+      break;
+    case UartBitsPerByte::kSixBitsPerByte:
+      tty.c_cflag |= CS6;
+      break;
+    case UartBitsPerByte::kSevenBitsPerByte:
+      tty.c_cflag |= CS7;
+      break;
+    case UartBitsPerByte::kEightBitsPerByte:
+      tty.c_cflag |= CS8;
+      break;
+    default:
+      throw std::logic_error("Invalid option for bits per byte");
   }
 
   tty.c_cflag &= ~CRTSCTS;
   tty.c_cflag |=
-      CREAD | CLOCAL; // Turn on READ & ignore ctrl lines (CLOCAL = 1)
+      CREAD | CLOCAL;  // Turn on READ & ignore ctrl lines (CLOCAL = 1)
 
   tty.c_lflag &= ~ICANON;
 
-  tty.c_lflag &= ~ECHO;   // Disable echo
-  tty.c_lflag &= ~ECHOE;  // Disable erasure
-  tty.c_lflag &= ~ECHONL; // Disable new-line echo
+  tty.c_lflag &= ~ECHO;    // Disable echo
+  tty.c_lflag &= ~ECHOE;   // Disable erasure
+  tty.c_lflag &= ~ECHONL;  // Disable new-line echo
 
-  tty.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT and SUSP
+  tty.c_lflag &= ~ISIG;  // Disable interpretation of INTR, QUIT and SUSP
 
-  tty.c_iflag &= ~(IXON | IEXTEN); // Turn off s/w flow ctrl
+  tty.c_iflag &= ~(IXON | IEXTEN);  // Turn off s/w flow ctrl
 
   tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR |
-                   ICRNL); // Disable any special handling of received bytes
+                   ICRNL);  // Disable any special handling of received bytes
 
-  tty.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes
-                         // (e.g. newline chars)
+  tty.c_oflag &= ~OPOST;  // Prevent special interpretation of output bytes
+                          // (e.g. newline chars)
   tty.c_oflag &=
-      ~ONLCR; // Prevent conversion of newline to carriage return/line feed
+      ~ONLCR;  // Prevent conversion of newline to carriage return/line feed
 
-  tty.c_cc[VTIME] = 0; 
-                      
+  tty.c_cc[VTIME] = 0;
+
   tty.c_cc[VMIN] = 0;
 
   switch (ubd) {
-  case UartBaudrate::kBR9600:
-    baud = B9600;
-    break;
-  case UartBaudrate::kBR19200:
-    baud = B19200;
-    break;
-  case UartBaudrate::kBR38400:
-    baud = B38400;
-    break;
-  case UartBaudrate::kBR115200:
-    baud = B115200;
-    break;
-  default:
-    std::logic_error("Invalid option for Baudrate");
+    case UartBaudrate::kBR9600:
+      baud = B9600;
+      break;
+    case UartBaudrate::kBR19200:
+      baud = B19200;
+      break;
+    case UartBaudrate::kBR38400:
+      baud = B38400;
+      break;
+    case UartBaudrate::kBR115200:
+      baud = B115200;
+      break;
+    default:
+      std::logic_error("Invalid option for Baudrate");
   }
 
   cfsetispeed(&tty, baud);
@@ -124,4 +124,4 @@ UartInterface::UartInterface(std::ostream &os, std::string serial,
 /* Uart desconstructor used for finishing the uart connection */
 UartInterface::~UartInterface() { close(serial_file_); };
 
-} // namespace uart
+}  // namespace uart

@@ -15,14 +15,14 @@ namespace cli {
 
 /* Class used to parse CLI settings */
 class CliSettings {
-/* Just typedef's for convenience */
+  /* Just typedef's for convenience */
   using config_handler =
       std::function<void(CliSettings &, std::string const &)>;
   using help_handler = std::function<void(CliSettings &)>;
 
  public:
   /* Constructors */
-  CliSettings(); 
+  CliSettings();
   /* "Getter" functions */
   auto get_baudrate() { return baudrate_; }
   auto get_port() { return port_; }
@@ -41,9 +41,11 @@ class CliSettings {
       if (auto h{settings->help_map_.find(user_input)};
           h != settings->help_map_.end()) {
         h->second(*settings);
-      } else if (auto c{settings->uart_config_map_.find(user_input)}; /* Checking for uart settings */
+      } else if (auto c{settings->uart_config_map_.find(
+                     user_input)}; /* Checking for uart settings */
                  c != settings->uart_config_map_.end()) {
-        if (++i > argc) { /* Might throw if user provides not enough arguments */
+        if (++i >
+            argc) { /* Might throw if user provides not enough arguments */
           throw std::runtime_error("Not enough parameters");
         }
         c->second(*settings, {argv[i]});

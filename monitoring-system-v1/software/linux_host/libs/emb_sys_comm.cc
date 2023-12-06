@@ -2,6 +2,7 @@
 
 #include <absl/strings/numbers.h>
 #include <absl/strings/str_split.h>
+#include <unistd.h>
 
 #include <array>
 #include <chrono>
@@ -15,7 +16,6 @@
 #include <string>
 #include <string_view>
 #include <thread>
-#include <unistd.h>
 #include <vector>
 
 #include "log_protocol.hh"
@@ -26,48 +26,50 @@ namespace monitoring_system {
 
 /* Function that makes the request for the embedded system */
 void LinuxHost::make_request(RequestP rq, ProtocolP pr, UartRef uart) {
-
   /* Getting the correct message frame */
   logs::MessageFrame msg_frame = rq->emb_sys_log_request(uart);
 
   /* Commucation might throw */
   try {
-    /* Actually sends and receives messages via uart, also deserializes the data */
+    /* Actually sends and receives messages via uart, also deserializes the data
+     */
     stored_logs_ = pr->deserialize_data(msg_frame, uart);
-  } catch (std::exception const &ex) { 
+  } catch (std::exception const &ex) {
     std::cerr << ex.what() << '\n';
     std::cerr << "Restarting the program" << '\n';
     system("clear");
   }
 }
 
-/* Depending on the user's choice it's needed different types of requests, hence this factory function */
+/* Depending on the user's choice it's needed different types of requests, hence
+ * this factory function */
 RequestP LinuxHost::request_factory(logs::RequestTypes &rq) {
   RequestP request;
   switch (rq) {
-  case logs::RequestTypes::kTotalTime:
-    request = new logs::TotalTimeRequest;
-    return request;
-  case logs::RequestTypes::kEvents:
-    request = new logs::EventsRequest;
-    return request;
-  default:
-    return nullptr;
+    case logs::RequestTypes::kTotalTime:
+      request = new logs::TotalTimeRequest;
+      return request;
+    case logs::RequestTypes::kEvents:
+      request = new logs::EventsRequest;
+      return request;
+    default:
+      return nullptr;
   }
 }
 
-/* Depending on the user's choice it's needed different types of requests, hence this factory function */
+/* Depending on the user's choice it's needed different types of requests, hence
+ * this factory function */
 ProtocolP LinuxHost::protocol_factory(logs::RequestTypes &rq) {
   ProtocolP protocol;
   switch (rq) {
-  case logs::RequestTypes::kTotalTime:
-    protocol = new logs::TotalTimeProtocol;
-    return protocol;
-  case logs::RequestTypes::kEvents:
-    protocol = new logs::EventProtocol;
-    return protocol;
-  default:
-    return nullptr;
+    case logs::RequestTypes::kTotalTime:
+      protocol = new logs::TotalTimeProtocol;
+      return protocol;
+    case logs::RequestTypes::kEvents:
+      protocol = new logs::EventProtocol;
+      return protocol;
+    default:
+      return nullptr;
   }
 }
 
@@ -103,7 +105,8 @@ void LinuxHost::parse_time_window_events(std::ostream &os) {
 
   std::cout << '\n';
 
-  /* Deleting host application queue, since there's no needed for old data on memory */
+  /* Deleting host application queue, since there's no needed for old data on
+   * memory */
   delete stored_logs_;
 
   std::this_thread::sleep_for(std::chrono::seconds{3});
@@ -112,8 +115,8 @@ void LinuxHost::parse_time_window_events(std::ostream &os) {
 }
 
 /* Function used for handled user input */
-logs::EventDisplayOptions
-LinuxHost::handle_user_event_option(std::ostream &os) const {
+logs::EventDisplayOptions LinuxHost::handle_user_event_option(
+    std::ostream &os) const {
   static int err_count{0};
   int opt;
 
@@ -136,12 +139,12 @@ LinuxHost::handle_user_event_option(std::ostream &os) const {
   }
   /* Based on the input getting the request type */
   switch (opt) {
-  case 1:
-    return logs::EventDisplayOptions::kAllEvents;
-  case 2:
-    return logs::EventDisplayOptions::kTimeWindowEvents;
-  default:
-    ++err_count;
+    case 1:
+      return logs::EventDisplayOptions::kAllEvents;
+    case 2:
+      return logs::EventDisplayOptions::kTimeWindowEvents;
+    default:
+      ++err_count;
   }
   /* Wrong input handler */
   if (err_count < 3) {
@@ -156,20 +159,22 @@ void LinuxHost::display_logs(std::ostream &os, logs::RequestTypes &type) {
 
   /* Switch to accomodate all request options */
   switch (type) {
-  /* Total time case */
-  case logs::RequestTypes::kTotalTime:
-    os << "Option choosen was Total Time online"
-       << "\n";
-    os << "The result provided by the embedded system was: "
-       << stored_logs_->dequeue() << "\n"; /* Print item on the queue, while simultaneously removing from the queue */
-    /* Deleting host internal queue from the memory */
-    delete stored_logs_;
-    return;
-  /* Events case */
-  case logs::RequestTypes::kEvents:
-    os << "Option choosen was Log Events"
-       << "\n";
-    break;
+    /* Total time case */
+    case logs::RequestTypes::kTotalTime:
+      os << "Option choosen was Total Time online"
+         << "\n";
+      os << "The result provided by the embedded system was: "
+         << stored_logs_->dequeue()
+         << "\n"; /* Print item on the queue, while simultaneously removing from
+                     the queue */
+      /* Deleting host internal queue from the memory */
+      delete stored_logs_;
+      return;
+    /* Events case */
+    case logs::RequestTypes::kEvents:
+      os << "Option choosen was Log Events"
+         << "\n";
+      break;
   }
 
   os << "___________________________________________________" << '\n';
@@ -192,7 +197,9 @@ void LinuxHost::display_logs(std::ostream &os, logs::RequestTypes &type) {
 
   /* Handling All events case */
   if (display_option == logs::EventDisplayOptions::kAllEvents) {
-    os << '\n' <<  "Displaying all events" << "\n\n";
+    os << '\n'
+       << "Displaying all events"
+       << "\n\n";
     /* Dequeueing might throw */
     try {
       /* While there's itens on queue, print and dequeue */
@@ -206,8 +213,7 @@ void LinuxHost::display_logs(std::ostream &os, logs::RequestTypes &type) {
          << "\n"
          << "Description: " << ex.what() << '\n';
     }
-  os 
-     << "\n\n";
+    os << "\n\n";
     return;
   }
 
@@ -221,10 +227,12 @@ void LinuxHost::display_logs(std::ostream &os, logs::RequestTypes &type) {
   }
 }
 
+/* Handling user input */
 logs::RequestTypes LinuxHost::handle_user_option(std::ostream &os) const {
   static int err_count{0};
   int opt;
 
+  /* Getting user input */
   while (!(std::cin >> opt)) {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -239,15 +247,17 @@ logs::RequestTypes LinuxHost::handle_user_option(std::ostream &os) const {
     os << "Enter your option: ";
   }
 
+  /* Depending on the input return a request type */
   switch (opt) {
-  case 1:
-    return logs::RequestTypes::kTotalTime;
-  case 2:
-    return logs::RequestTypes::kEvents;
-  default:
-    ++err_count;
+    case 1:
+      return logs::RequestTypes::kTotalTime;
+    case 2:
+      return logs::RequestTypes::kEvents;
+    default:
+      ++err_count;
   }
 
+  /* Invalid input handler */
   if (err_count < 3) {
     return this->handle_user_option(os);
   }
@@ -255,7 +265,9 @@ logs::RequestTypes LinuxHost::handle_user_option(std::ostream &os) const {
   exit(1);
 };
 
+/* Function to handle CLI settings */
 FinalSettings LinuxHost::handle_settings(std::ostream &os) const {
+  /* Help flag case */
   if (user_settings_->get_help()) {
     os << "This program is used to open a uart connection to communicate "
           "with "
@@ -276,28 +288,30 @@ FinalSettings LinuxHost::handle_settings(std::ostream &os) const {
 
   uart::UartBaudrate baud;
 
+  /* Getting baudrate from CLI options */
   if (!user_settings_->get_baudrate()) {
     os << "Baudrate wasn't provided, using defaults" << '\n';
   } else {
     switch (static_cast<uart::UartBaudrate>(
         user_settings_->get_baudrate().value())) {
-    case uart::UartBaudrate::kBR9600:
-      baud = uart::UartBaudrate::kBR9600;
-    case uart::UartBaudrate::kBR19200:
-      baud = uart::UartBaudrate::kBR19200;
-    case uart::UartBaudrate::kBR38400:
-      baud = uart::UartBaudrate::kBR38400;
-    case uart::UartBaudrate::kBR115200:
-      baud = uart::UartBaudrate::kBR115200;
-    default:
-      os << "Baudrate provided isn't supported, using defaults" << '\n'
-         << "Default Baudrate: 115200" << '\n';
-      baud = uart::UartBaudrate::kBR115200;
+      case uart::UartBaudrate::kBR9600:
+        baud = uart::UartBaudrate::kBR9600;
+      case uart::UartBaudrate::kBR19200:
+        baud = uart::UartBaudrate::kBR19200;
+      case uart::UartBaudrate::kBR38400:
+        baud = uart::UartBaudrate::kBR38400;
+      case uart::UartBaudrate::kBR115200:
+        baud = uart::UartBaudrate::kBR115200;
+      default:
+        os << "Baudrate provided isn't supported, using defaults" << '\n'
+           << "Default Baudrate: 115200" << '\n';
+        baud = uart::UartBaudrate::kBR115200;
     }
   }
 
   std::string port;
 
+  /* Getting port from CLI options */
   if (!user_settings_->get_port()) {
     os << "Port wasn't provided, using defaults" << '\n'
        << "Default Port: /dev/ttyUSB0" << '\n';
@@ -313,16 +327,20 @@ FinalSettings LinuxHost::handle_settings(std::ostream &os) const {
 
   os << "\n Finished configurations, trying to create a Uart Connection \n";
 
+  /* Returning the config */
   return {baud, port};
 }
 
+/* Starting CLI interface */
 void LinuxHost::start_cli_interface(std::ostream &os) {
   auto self = shared_from_this();
 
+  /* Handle CLI options */
   auto cfg = self->handle_settings(os);
 
   uart::UartInterface *channel;
 
+  /* Creating the uart channel, which might throw */
   try {
     channel = new uart::UartInterface(
         os, cfg.second, uart::UartBaudrate::kBR115200,
@@ -335,6 +353,7 @@ void LinuxHost::start_cli_interface(std::ostream &os) {
     exit(1);
   }
 
+  /* Application main loop */
   while (true) {
     os << "___________________________________________________" << '\n';
     os << "              Linux Host CLI Started"
@@ -349,14 +368,18 @@ void LinuxHost::start_cli_interface(std::ostream &os) {
        << "\n\n";
     os << "Enter your option: ";
 
+    /* Handle user options */
     auto request_type = self->handle_user_option(os);
 
     system("clear");
 
+    /* Getting the appropriate the protocol */
     ProtocolP proto = self->protocol_factory(request_type);
 
+    /* Getting the appropriate the request */
     RequestP rq = self->request_factory(request_type);
 
+    /* Actually making the request, which might throw */
     try {
       self->make_request(rq, proto, *channel);
     } catch (std::exception &ex) {
@@ -368,11 +391,14 @@ void LinuxHost::start_cli_interface(std::ostream &os) {
       continue;
     }
 
+    /* Displaying logs */
     self->display_logs(os, request_type);
 
+    /* Deleting unused memory */
     delete rq;
     delete proto;
 
+    /* Delay for restarting the application */
     os << "Restarting the cli in 5 seconds"
        << "\n";
     std::this_thread::sleep_for(std::chrono::seconds{5});
@@ -380,4 +406,4 @@ void LinuxHost::start_cli_interface(std::ostream &os) {
     system("clear");
   }
 }
-} // namespace monitoring_system
+}  // namespace monitoring_system

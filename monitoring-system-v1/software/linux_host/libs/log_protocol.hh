@@ -14,7 +14,7 @@ using log_queue = ds::Queue<std::string> *;
 
 /* Base class used as interface to request data from the embedded system*/
 class Protocol {
-public:
+ public:
   virtual log_queue deserialize_data(MessageFrame &,
                                      uart::UartInterface &) const = 0;
   virtual ~Protocol() = default;
@@ -22,7 +22,7 @@ public:
 
 /* Derived class used to request event's data from the embedded system*/
 class EventProtocol : public Protocol {
-public:
+ public:
   EventProtocol() = default;
   log_queue deserialize_data(MessageFrame &,
                              uart::UartInterface &) const override;
@@ -30,12 +30,12 @@ public:
 
 /* Derived class used to request total time data from the embedded system*/
 class TotalTimeProtocol : public Protocol {
-public:
+ public:
   TotalTimeProtocol() = default;
   log_queue deserialize_data(MessageFrame &,
                              uart::UartInterface &) const override;
 };
 
-} // namespace logs
-} // namespace monitoring_system
-#endif // !LOG_PROTOCOL_HH_
+}  // namespace logs
+}  // namespace monitoring_system
+#endif  // !LOG_PROTOCOL_HH_

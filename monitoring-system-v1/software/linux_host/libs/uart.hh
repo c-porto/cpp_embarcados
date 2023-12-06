@@ -1,12 +1,13 @@
 #ifndef UART_HH_
 #define UART_HH_
 
+#include <unistd.h>
+
 #include <cstddef>
 #include <cstdint>
 #include <ostream>
 #include <string>
 #include <string_view>
-#include <unistd.h>
 namespace uart {
 
 /* Enum classes for type safe config options */
@@ -26,7 +27,7 @@ enum class UartBitsPerByte {
 
 /* Class responsible to interface uart communication */
 class UartInterface {
-public:
+ public:
   UartInterface(std::ostream &, std::string, UartBaudrate, UartStopBit,
                 UartParityBit, UartBitsPerByte);
   ~UartInterface();
@@ -43,10 +44,10 @@ public:
   /* File descriptor "getter" */
   auto get_port() const { return serial_file_; }
 
-protected:
+ protected:
   std::string port_;
   int serial_file_;
 };
 
-} // namespace uart
-#endif // !UART_HH_
+}  // namespace uart
+#endif  // !UART_HH_

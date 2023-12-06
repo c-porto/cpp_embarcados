@@ -3,6 +3,7 @@
 #include <absl/strings/str_split.h>
 #include <asm-generic/ioctls.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
 
 #include <chrono>
 #include <cstddef>
@@ -17,7 +18,6 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
-#include <unistd.h>
 #include <vector>
 
 #include "queue.hh"
@@ -54,7 +54,6 @@ log_queue TotalTimeProtocol::deserialize_data(MessageFrame &mf,
   for (std::size_t i{0}; i < res_len; ++i) {
     seconds_on |= (static_cast<uint64_t>(rx_buffer[i]) << (8 * i));
   }
-  
 
   /* Getting total time in normal hour:min:sec format */
   auto duration = std::chrono::duration_cast<std::chrono::seconds>(
@@ -173,5 +172,5 @@ log_queue EventProtocol::deserialize_data(MessageFrame &mf,
   /* Returning the queue */
   return final_queue;
 }
-} // namespace logs
-} // namespace monitoring_system
+}  // namespace logs
+}  // namespace monitoring_system
